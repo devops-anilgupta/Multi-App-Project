@@ -1,0 +1,41 @@
+    1  docker ps -a
+    2  curl http://localhost:8000
+    3  curl https://localhost:8000
+    4  curl http://localhost:8000
+    5  curl http://localhost:8000/
+    6  docker compose logs -f go-app
+    7  clear
+    8  docker compose logs -f go-app-1
+    9  docker compose logs -f go-app
+   10  clear
+   11  docker ps
+   12  clear
+   13  docker compose logs -f multi-app-project-go-app-1
+   14  docker ps
+   15  clear
+   16  docker logs -f multi-app-project-go-app-1
+   17  docker compose logs -f go-app
+
+ 1  docker compose up go-app
+    2  clear
+    3  cd go-app
+    4  go mod init go-app
+    5  cd ..
+    6  docker compose up go-app
+    7  clear
+    8  docker compose up go-app
+    9  cd ..
+   10  ls -la
+   11  cd multi-app-project/
+   12  git init
+   13  git add .gitignore
+   14  git status
+   15  nano .gitignore
+   16  git add .
+   17  git status
+   18  git commit -m "Created Multi-APP-Project"
+   19  git push
+   20  git remote add origin https://github.com/devops-anilgupta/Multi-App-Project.git
+   21  git branch -M main
+   22  git push -u origin main
+   23  history   
