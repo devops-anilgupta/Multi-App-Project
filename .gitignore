@@ -2,7 +2,7 @@
 node_modules/
 
 # Ignore devcontainer config folder (usually contains local VSCode devcontainer config)
-.devcontainer/
+# .devcontainer/
 
 # Ignore compressed archives or backups
 go.tar.gz
