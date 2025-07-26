@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  go-app:
+    build: ./go-app
+    ports:
+      - "8000:8000"
+  python-app:
+    build: ./python-app
+    ports:
+      - "5000:5000"
+  react-app:
+    build: ./react-app
+    ports:
+      - "3000:80"
+  angular-app:
+    build: ./angular-app
+    ports:
+      - "4200:80"

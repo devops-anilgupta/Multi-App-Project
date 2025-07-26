@@ -1,0 +1,36 @@
+# Ignore node_modules folder (common for Angular and React apps)
+node_modules/
+
+# Ignore devcontainer config folder (usually contains local VSCode devcontainer config)
+.devcontainer/
+
+# Ignore compressed archives or backups
+go.tar.gz
+
+# Ignore package lock files if you prefer (optional)
+# package-lock.json
+
+# Ignore Python cache files
+python-app/__pycache__/
+python-app/*.pyc
+python-app/*.pyo
+python-app/.pytest_cache/
+python-app/.venv/
+python-app/env/
+python-app/.env
+
+# Ignore log files (optional)
+*.log
+
+# Ignore Docker-related local files if you want (optional)
+# docker-compose.override.yml
+# .env
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
