@@ -1,6 +1,6 @@
 {
   "name": "multi-app-project",
-  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "remoteUser": "root",
   "postCreateCommand": "./.devcontainer/setup.sh",
   "features": {
