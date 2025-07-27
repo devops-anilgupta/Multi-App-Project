@@ -21,5 +21,15 @@
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "forwardPorts": [3000, 4200, 8000, 8080]
+  "forwardPorts": [
+    3000,
+    4200,
+    8000,
+    5000
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "React - 3000"
+    }
+  }
 }

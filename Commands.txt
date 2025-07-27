@@ -1,0 +1,23 @@
+---------------------------------------------------------------------------------------------------
+<<Docker Compose>>
+Docker Compose is a tool used to define and run multi-container Docker applications. 
+Instead of running multiple docker run commands, Compose lets you manage everything from a single YAML file 
+(docker-compose.yml).
+---------------------------------------------------------------------------------------------------
+[MySQL] 
+docker ps //find mysql name
+docker exec -it mysql_db mysql -u root -p //change mysql_db with your container name. It will ask for password, check the password in docker-compose and enter it here. 
+show databases; //run this command to check databases. It will show your database.    
+use mydb; //this is to go in db. 
+SHOW TABLES; //this is to show tables;
+
+[Docker Compose]
+docker-compose -f custom-compose.yml up
+docker-compose build          # Build images
+docker-compose up -d          # Start in background
+docker-compose logs -f        # Watch logs
+docker-compose exec app bash  # Access container shell
+docker-compose down           # Tear down everything
+docker compose build angular-app //building image again
+docker compose up angular-app //you can change it to react-app or go-app to build them individuall. 
+---------------------------------------------------------------------------------------------------
