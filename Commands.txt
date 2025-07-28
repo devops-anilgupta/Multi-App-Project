@@ -21,3 +21,6 @@ docker-compose down           # Tear down everything
 docker compose build angular-app //building image again
 docker compose up angular-app //you can change it to react-app or go-app to build them individuall. 
 ---------------------------------------------------------------------------------------------------
+
+//shows the folder structure upto 2 folder underneath and skip folders: go-app, angular-app and .git
+tree -a -L 2 -I 'go-app|angular-app|.git'
