@@ -1,0 +1,11 @@
+//this is to converting .sql file to proper format which unix/linux understand. 
+-- dos2unix ./mysql-init/init-user.sql
+
+//running 
+-- docker compose down -v 
+-- docker compose up --build mysql-db
+
+//
+-- docker exec -it <container_id_or_name> mysql -u root -ppassword userdb
+-- SHOW TABLES;
+-- DESCRIBE users;
