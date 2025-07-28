@@ -51,5 +51,19 @@ def upload():
 
     return jsonify({'message': 'File uploaded and data saved successfully'})
 
+# ✅ New route to fetch all user records
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT id, name, email, resume_path, created_at FROM users")
+        users = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(users)
+    except Exception as e:
+        return jsonify({'message': f'Error fetching users: {str(e)}'}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -1,0 +1,6 @@
+1. docker ps output: 
+aecd9f5a7533   multi-app-project-python-app "python app.py" 44 minutes ago   Up 44 minutes   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp   backend-python
+
+2. docker exec -it aecd9f5a7533    /bin/bash //replace docker ps id
+
+3. ls -la /data/uploads  //this is path where .pdf files were uploaded. 

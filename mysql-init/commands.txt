@@ -9,3 +9,11 @@
 -- docker exec -it <container_id_or_name> mysql -u root -ppassword userdb
 -- SHOW TABLES;
 -- DESCRIBE users;
+
+//you will find the container id from docker ps. run following script one by one to check table.  
+-- docker exec -it 3858d4dceaef bash
+-- mysql -u root -p
+   SHOW DATABASES;
+   USE userdb;
+   SHOW TABLES;
+   SELECT * FROM users;
