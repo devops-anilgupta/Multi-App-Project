@@ -4,6 +4,7 @@
 //running 
 -- docker compose down -v 
 -- docker compose up --build mysql-db
+-- docker compose up mysql-db
 
 //
 -- docker exec -it <container_id_or_name> mysql -u root -ppassword userdb

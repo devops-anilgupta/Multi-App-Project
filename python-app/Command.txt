@@ -1,3 +1,5 @@
 1. docker ps //find container_id 
 2. docker exec -it aecd9f5a7533    /bin/bash //replace docker ps id
 3. ls -la /data/uploads  //this is path where .pdf files were uploaded. 
+
+4. ROOT Directory | docker compose build python-app ---> built the latest changes. 

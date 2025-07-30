@@ -1,0 +1,29 @@
+namePrefix: dev-
+namespace: dev
+
+resources:
+  - ../../base
+
+images:
+  - name: multi-app-project-react-app:latest
+    newTag: dev
+  - name: multi-app-project-python-app:latest
+    newTag: dev
+  - name: multi-app-project-mysql-db:latest
+    newTag: dev
+
+patches:
+  - target:
+      kind: Deployment
+      name: frontend
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: backend
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
