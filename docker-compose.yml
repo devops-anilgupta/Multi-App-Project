@@ -1,10 +1,30 @@
+  # ----------------Command to run the application: -----------------------------#
+  # docker compose up pythaon-app
+  # docker compose down python-app
+  
+  # docker compose up mysql-db
+  # docker compose down mysql-db
+
+  # docker compose up react-app
+  # docker compose down react-app
+
+  # docker compose up angular-app
+  # docker compose down angular-app
+
+  # docker compose up go-app
+  # docker compose down go-app
+
+  # docker compose up all
+  # docker compose down all
+  # ----------------Command to run the application: -----------------------------#
+
 version: '3.8'
 services:
   go-app:
     build: ./go-app
     ports:
       - "8000:8000"
-
+  
   python-app:
     container_name: backend-python
     build: ./python-app
