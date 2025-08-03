@@ -5,11 +5,11 @@ resources:
   - ../../base
 
 images:
-  - name: multi-app-project-react-app:latest
+  - name: 816150604527.dkr.ecr.us-east-1.amazonaws.com/react-app
     newTag: dev
-  - name: multi-app-project-python-app:latest
+  - name: 816150604527.dkr.ecr.us-east-1.amazonaws.com/python-app
     newTag: dev
-  - name: multi-app-project-mysql-db:latest
+  - name: 816150604527.dkr.ecr.us-east-1.amazonaws.com/mysql-db
     newTag: dev
 
 patches:

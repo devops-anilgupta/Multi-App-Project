@@ -1,0 +1,17 @@
+D:\Kubernetes\multi-app-project-with-source\multi-app-project\k8s>doskey /history
+helm version
+helm repo add secrets-store-csi-driver https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+helm repo update
+d:
+cd Kubernetes
+cd multi-app-project-with-source
+cd multi-app-project
+cd k8s
+helm install csi-secrets-store secrets-store-csi-driver/secrets-store-csi-driver --namespace kube-system
+minikube status
+minikube start
+helm install csi-secrets-store secrets-store-csi-driver/secrets-store-csi-driver --namespace kube-system
+ kubectl --namespace=kube-system get pods -l "app=secrets-store-csi-driver"
+ kubectl --namespace=kube-system get pods -l "app=secrets-store-csi-driver" -w
+ kubectl --namespace=kube-system get pods -l "app=secrets-store-csi-driver"
+doskey /history

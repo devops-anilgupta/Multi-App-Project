@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: multi-app-project-mysql-db:latest
+          image: multi-app-project-mysql-db:latest # This will be overridden by the overlay environment in k8s/overlays/dev/kustomization.yaml
           envFrom:
             - configMapRef:
                 name: mysql-config

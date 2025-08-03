@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: multi-app-project-react-app:latest
+          image: multi-app-project-react-app:latest # This will pick the image from the docker desktop (window host)
           ports:
             - containerPort: 3000
