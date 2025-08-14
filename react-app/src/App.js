@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { loadConfig, getApiUrl } from "./configService";
 
 function App() {
   const [form, setForm] = useState({ name: "", email: "", resume: null });
@@ -17,7 +18,7 @@ function App() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/users`);
+      const res = await axios.get(`${getApiUrl()}/api/users`);
       setUsers(res.data);
     } catch (err) {
       console.error("Failed to fetch users", err);
@@ -37,7 +38,7 @@ function App() {
     formData.append("resume", form.resume);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/upload`, formData, {
+      const res = await axios.post(`${getApiUrl()}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage(res.data.message || "Upload successful!");
@@ -49,8 +50,14 @@ function App() {
   };
 
   useEffect(() => {
-    fetchUsers(); // fetch on first load
+    (async () => {
+      await loadConfig();
+      console.log("API URL being used:", getApiUrl()); // This prints in browser console
+      fetchUsers();
+    })();
   }, []);
+
+
 
   return (
     <div style={{ maxWidth: 600, margin: "auto", paddingTop: 50 }}>
@@ -87,6 +94,7 @@ function App() {
       <p>{message}</p>
 
       <h3>Uploaded Users</h3>
+      <h4>API URL: {getApiUrl()}</h4>
       <table border="1" cellPadding="5">
         <thead>
           <tr>

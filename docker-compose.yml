@@ -43,6 +43,8 @@ services:
       - mysql-db
     env_file:
       - ./python-app/.env
+    environment:
+      - API_URL=http://localhost:5000
 
   mysql-db:
     container_name: mysql

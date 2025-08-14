@@ -28,6 +28,15 @@ DB_CONFIG = {
 def get_db_connection():
     return mysql.connector.connect(**DB_CONFIG)
 
+# NEW: Config route for frontend to get API URL dynamically
+@app.route("/config", methods=["GET"])
+def get_config():
+    api_url = os.getenv("API_URL")
+    if not api_url:
+        logger.error("API_URL environment variable not set")
+        return jsonify({"error": "API_URL not set"}), 500
+    return jsonify({"API_URL": api_url})
+
 @app.route('/api/upload', methods=['POST'])
 def upload():
     logger.debug("Upload endpoint hit")
@@ -72,13 +81,6 @@ def get_users():
         users = cursor.fetchall()
         cursor.close()
         conn.close()
-        
-        # //testing data
-        # users = [
-        #     {"id": 1, "name": "John Doe", "email": "john@example.com", "resume_path": "/data/uploads/resume1.pdf", "created_at": "2023-01-01 12:00:00"},
-        #     {"id": 2, "name": "Jane Smith", "email": "jane@example.com", "resume_path": "/data/uploads/resume2.pdf", "created_at": "2023-01-02 12:00:00"}
-        # ]
-        
         return jsonify(users)
     except Exception as e:
         logger.error(f"Error fetching users: {str(e)}", exc_info=True)
