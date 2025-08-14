@@ -4,6 +4,9 @@ namespace: dev
 resources:
   - ../../base
 
+patchesStrategicMerge:
+  - patch-pvc-storageclass.yaml
+
 images:
   - name: 816150604527.dkr.ecr.us-east-1.amazonaws.com/react-app
     newTag: dev

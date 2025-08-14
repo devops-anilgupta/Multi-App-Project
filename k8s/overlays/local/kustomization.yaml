@@ -1,0 +1,52 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: local
+
+resources:
+  - ../../base
+  - pv-local.yaml
+
+patchesStrategicMerge:
+  - patch-pvc-storageclass.yaml
+  - configmap-patch.yaml
+
+configMapGenerator:
+  - name: mysql-init-script
+    files:
+      - init/mysql-init-script.sql
+
+images:
+  - name: multi-app-project-python-app
+    newTag: dev
+  - name: multi-app-project-react-app
+    newTag: dev
+  - name: multi-app-project-mysql-db
+    newTag: dev
+
+patches:
+  - target:
+      version: apps/v1
+      kind: Deployment
+      name: frontend
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      version: apps/v1
+      kind: Deployment
+      name: backend
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      version: networking.k8s.io/v1
+      kind: Ingress
+      name: app-ingress   # replace with your actual ingress name
+    patch: |
+      - op: replace
+        path: /spec/rules/0/host
+        value: myapp-local.local
+

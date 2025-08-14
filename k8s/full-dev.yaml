@@ -55,7 +55,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dev-backend-pdf-pvc
+  name: backend-pdf-pvc
   namespace: dev
 spec:
   accessModes:
@@ -121,7 +121,7 @@ spec:
       volumes:
       - name: pdf-storage
         persistentVolumeClaim:
-          claimName: dev-backend-pdf-pvc
+          claimName: backend-pdf-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment

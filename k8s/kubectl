@@ -15,3 +15,8 @@ helm install csi-secrets-store secrets-store-csi-driver/secrets-store-csi-driver
  kubectl --namespace=kube-system get pods -l "app=secrets-store-csi-driver" -w
  kubectl --namespace=kube-system get pods -l "app=secrets-store-csi-driver"
 doskey /history
+
+//This is to add db_credentials from dev-mysql-secret.json file to aws secret manager. 
+aws secretsmanager create-secret --name dev/mysql/db_credentials --secret-string file://dev-mysql-secret.json
+
+//

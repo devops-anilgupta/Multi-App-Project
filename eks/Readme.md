@@ -3,8 +3,6 @@
 Note the output policy ARN this will be like this --> "arn:aws:iam::816150604527:policy/eks-admin-full-access"
 
 
-
-
 3. Attach the policy to your IAM user or role
 For user: 
 >> aws iam attach-user-policy --user-name dev-user1 --policy-arn <<Paste ARN from step 2 here>>

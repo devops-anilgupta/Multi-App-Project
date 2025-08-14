@@ -17,7 +17,7 @@ function App() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users");
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/users`);
       setUsers(res.data);
     } catch (err) {
       console.error("Failed to fetch users", err);
@@ -37,7 +37,7 @@ function App() {
     formData.append("resume", form.resume);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/upload", formData, {
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage(res.data.message || "Upload successful!");

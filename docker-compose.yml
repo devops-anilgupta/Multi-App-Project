@@ -1,5 +1,8 @@
   # ----------------Command to run the application: -----------------------------#
-  # docker compose up pythaon-app
+  # docker builder prune //1. Remove Build Cache Only
+  # docker-compose build
+
+  # docker compose up python-app
   # docker compose down python-app
   
   # docker compose up mysql-db
@@ -20,14 +23,18 @@
 
 version: '3.8'
 services:
-  go-app:
-    build: ./go-app
-    ports:
-      - "8000:8000"
-  
+  # go-app:
+  #   build:
+  #     context: ./go-app
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8000:8000"
+
   python-app:
     container_name: backend-python
-    build: ./python-app
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     volumes:
@@ -36,17 +43,12 @@ services:
       - mysql-db
     env_file:
       - ./python-app/.env
-    # environment:
-    #   MYSQL_HOST: mysql-db
-    #   MYSQL_USER: root
-    #   MYSQL_PASSWORD: password
-    #   MYSQL_DATABASE: userdb
 
   mysql-db:
     container_name: mysql
     build:
-      context: .
-      dockerfile: ./mysql-init/Dockerfile.mysql
+      context: ./mysql-init
+      dockerfile: Dockerfile.mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: userdb
@@ -56,19 +58,24 @@ services:
       - mysql-data:/var/lib/mysql
 
   react-app:
-      container_name: frontend-react
-      build: ./react-app
-      ports:
-        - "3000:3000"
-      environment:
-        - CHOKIDAR_USEPOLLING=true
-      command: npm start
-
-  angular-app:
-    build: ./angular-app
+    container_name: frontend-react
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+
+  # angular-app:
+  #   container_name: frontend-angular
+  #   build:
+  #     context: ./angular-app
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4200:80"
 
 volumes:
-    mysql-data:
-    python_uploads:
+  mysql-data:
+  python_uploads:

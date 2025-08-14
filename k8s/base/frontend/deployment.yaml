@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: multi-app-project-react-app:latest # This will pick the image from the docker desktop (window host)
+          image: multi-app-project-react-app:latest # This will be overriden by the overlay environment in k8s/overlays/dev/kustomization.yaml
           ports:
             - containerPort: 3000
