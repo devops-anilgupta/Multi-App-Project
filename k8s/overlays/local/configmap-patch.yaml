@@ -8,3 +8,7 @@ data:
   MYSQL_PASSWORD: testpassword
   MYSQL_ROOT_PASSWORD: rootpassword
   MYSQL_DATABASE: userdb
+# # kubectl run -it dns-test --image=busybox --rm --restart=Never -- nslookup mysql-db.local.svc.cluster.local
+# Kubernetes didn’t “randomly” give that name — it follows a strict DNS naming convention for services.
+# When you create a Service in Kubernetes, it automatically gets a DNS record inside the cluster based on:
+# <service-name>.<namespace>.svc.cluster.local 

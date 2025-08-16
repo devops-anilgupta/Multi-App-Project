@@ -19,22 +19,24 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: DB_HOST
+            - name: API_URL
+              value: "" # To be set from overlays/environment
+            - name: MYSQL_HOST # Ensure name matching with k8s\base\mysql\configmap.yaml -> MYSQL_HOST as it replaces the value in the container
               valueFrom:
                 configMapKeyRef:
                   name: mysql-config
                   key: MYSQL_HOST
-            - name: DB_NAME
+            - name: MYSQL_DATABASE # Ensure name matching with k8s\base\mysql\configmap.yaml -> MYSQL_DATABASE as it replaces the value in the container
               valueFrom:
                 configMapKeyRef:
                   name: mysql-config
                   key: MYSQL_DATABASE
-            - name: DB_USER
+            - name: MYSQL_USER # Ensure name matching with k8s\base\mysql\configmap.yaml -> MYSQL_USER as it replaces the value in the container
               valueFrom:
                 configMapKeyRef:
                   name: mysql-config
                   key: MYSQL_USER
-            - name: DB_PASSWORD
+            - name: MYSQL_PASSWORD # Ensure name matching with k8s\base\mysql\configmap.yaml -> MYSQL_PASSWORD as it replaces the value in the container
               valueFrom:
                 configMapKeyRef:
                   name: mysql-config

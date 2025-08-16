@@ -1,0 +1,13 @@
+# overlays/local/backend-api-url-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  template:
+    spec:
+      containers:
+      - name: backend
+        env:
+        - name: API_URL
+          value: "http://localhost:5000"

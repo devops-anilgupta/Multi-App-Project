@@ -8,6 +8,7 @@ resources:
   - pv-local.yaml
 
 patchesStrategicMerge:
+  - backend-api-url-patch.yaml
   - patch-pvc-storageclass.yaml
   - configmap-patch.yaml
 

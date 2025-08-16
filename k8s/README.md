@@ -12,5 +12,13 @@ Secrets or env vars	                Dev DB credentials	    Prod DB credentials
 kubectl apply -k overlays/dev      # Deploys dev environment
 kubectl apply -k overlays/prod     # Deploys production environment
 
+___________________________________________________________________________________________
+So, if your MySQL service is named mysql in namespace local, the correct hostname is:
+___________________________________________________________________________________________
+**** When you create a Service in Kubernetes, it automatically gets a DNS record inside the cluster based on:
+<service-name>.<namespace>.svc.cluster.local
+___________________________________________________________________________________________
 
 Name prefix/namespace	dev-backend, dev-frontend	prod-backend, prod-frontend
+
+>> kubectl exec -it pod/mysql-d789cd997-lmv4m -n local --  mysql -h mysql -u testuser -p userdb

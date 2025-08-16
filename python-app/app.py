@@ -19,7 +19,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # MySQL connection details
 DB_CONFIG = {
-    'host': os.getenv('MYSQL_HOST', 'mysql-db'),
+    'host': os.getenv('MYSQL_HOST', 'mysql-db'), 
     'user': os.getenv('MYSQL_USER', 'root'),
     'password': os.getenv('MYSQL_PASSWORD', 'password'),
     'database': os.getenv('MYSQL_DATABASE', 'userdb')

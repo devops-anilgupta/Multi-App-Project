@@ -1,0 +1,253 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: local
+---
+apiVersion: v1
+data:
+  MYSQL_DATABASE: userdb
+  MYSQL_HOST: mysql
+  MYSQL_PASSWORD: testpassword
+  MYSQL_ROOT_PASSWORD: rootpassword
+  MYSQL_ROOT_USER: root
+  MYSQL_USER: testuser
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: local
+---
+apiVersion: v1
+data:
+  mysql-init-script.sql: |-
+    USE userdb;
+
+    CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      email VARCHAR(100) NOT NULL,
+      resume_path VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    -- INSERT INTO users (name, email, resume_path) VALUES
+    --   ('John Doe', 'john@example.com', '/resumes/john_doe.pdf'),
+    --   ('Jane Smith', 'jane@example.com', '/resumes/jane_smith.pdf'),
+    --   ('Robert Brown', 'robert@example.com', '/resumes/robert_brown.pdf'),
+    --   ('Emily White', 'emily@example.com', '/resumes/emily_white.pdf'),
+    --   ('Michael Green', 'michael@example.com', '/resumes/michael_green.pdf');
+kind: ConfigMap
+metadata:
+  name: mysql-init-script-dk9dmm8c89
+  namespace: local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: local
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: local
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: frontend
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: local
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /mnt/data
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-pdf-pvc
+  namespace: local
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: local
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - env:
+        - name: API_URL
+          value: http://localhost:5000
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOST
+              name: mysql-config
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: mysql-config
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_USER
+              name: mysql-config
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_PASSWORD
+              name: mysql-config
+        image: multi-app-project-python-app:dev
+        name: backend
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /app/uploads
+          name: pdf-storage
+      volumes:
+      - name: pdf-storage
+        persistentVolumeClaim:
+          claimName: backend-pdf-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: multi-app-project-react-app:dev
+        name: frontend
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: mysql-config
+        image: multi-app-project-mysql-db:dev
+        name: mysql
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-data
+        - mountPath: /docker-entrypoint-initdb.d
+          name: initdb
+      volumes:
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      - configMap:
+          name: mysql-init-script-dk9dmm8c89
+        name: initdb
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: app-ingress
+  namespace: local
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: myapp.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: backend
+            port:
+              number: 5000
+        path: /api
+        pathType: Prefix
+      - backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
