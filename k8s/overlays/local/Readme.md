@@ -28,12 +28,10 @@ Go inside POD
 >> kubectl run -it mysql-client --image=mysql:8.0 --rm --restart=Never -- mysql -h mysql.local.svc.cluster.local -utestuser -ptestpassword userdb
 
 1. Start Minikube with Ingress Add-on
-minikube start
-minikube addons enable ingress
+>> minikube start
+>> minikube addons enable ingress
 
-
-kubectl port-forward -n local deployment/frontend 3000:3000
-kubectl port-forward -n local deployment/backend 5000:5000
-
+>> K8 Commands <<
+kubectl port-forward pod/<<frontend-7b69c8665c-4m55l>> 3000:3000 -n local
+kubectl port-forward pod/<<backend-75f44958c9-h44g5>> 5000:5000 -n local
 ------------------------------------------------------------------------------------------------
-
