@@ -18,6 +18,9 @@ helm/
 ├── database/
 └── umbrella/
 
+-----------------------------------------------------------
+--> Run below query on this Path: D:\Kubernetes\multi-app-project-with-source\multi-app-project\helm
+
 //HELM PACKAGE: This is to create package of helm chart
 helm install database ./database -f database/values.yaml
 helm install frontend ./frontend -f frontend/values.yaml
@@ -30,6 +33,7 @@ helm uninstall backend
 
 //HELM Package verify
 helm list
+-----------------------------------------------------------
 
 Each folder already contains:
     Chart.yaml
@@ -88,3 +92,4 @@ helm upgrade myapp ./helm/umbrella -f values-dev.yaml -n dev
 
 ✅ Now you have a Helm-standard structure with child charts + umbrella chart.
 This is how most companies do it for multi-service projects.
+
