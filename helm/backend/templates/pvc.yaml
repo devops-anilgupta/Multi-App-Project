@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ include "backend.fullname" . }}-pvc
+  namespace: {{ .Values.namespace }}
 spec:
   accessModes: {{ toYaml .Values.persistence.accessModes | nindent 2 }}
   resources:
