@@ -93,3 +93,19 @@ helm upgrade myapp ./helm/umbrella -f values-dev.yaml -n dev
 ✅ Now you have a Helm-standard structure with child charts + umbrella chart.
 This is how most companies do it for multi-service projects.
 
+-----------------------------------------------------------
+***Install Kyverno using Helm
+
+- helm repo add kyverno https://kyverno.github.io/kyverno/
+- helm repo update
+
+//Installed the kyverno with namespace kyverno
+- helm install kyverno kyverno/kyverno -n kyverno --create-namespace
+
+//Validate namespace, this ensure it installed perfectly: 
+kubectl get ns
+
+
+-- helm create nginx
+-- 
+-----------------------------------------------------------

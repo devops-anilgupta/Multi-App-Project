@@ -22,3 +22,21 @@ ________________________________________________________________________________
 Name prefix/namespace	dev-backend, dev-frontend	prod-backend, prod-frontend
 
 >> kubectl exec -it pod/mysql-d789cd997-lmv4m -n local --  mysql -h mysql -u testuser -p userdb
+
+-----------------------------------------------------------
+*** [Kyverno] is like AWS Config to control cluster level policy in kubernetes files. ***
+
+- It ensures validate k8 files created.
+- It does not allow to create file until condition written in kyverno satisfied.  
+
+*** Install Kyverno using Helm ***
+
+- helm repo add kyverno https://kyverno.github.io/kyverno/
+- helm repo update
+
+//Installed the kyverno with namespace kyverno
+- helm install kyverno kyverno/kyverno -n kyverno --create-namespace
+
+//Validate namespace, this ensure it installed perfectly: 
+kubectl get ns
+-----------------------------------------------------------
