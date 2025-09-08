@@ -1,0 +1,47 @@
+# Restrict images to Docker Hub only
+# This policy ensures that only container images from Docker Hub are used.
+# It allows both explicit Docker Hub images (docker.io/*) and official library images without a registry prefix.
+# Refer readme.md for more details.
+
+# ✅ With this setup:
+# Developers can use docker.io/nginx:1.25.3 or just nginx:1.25.3.
+# Anything else (like ghcr.io/... or quay.io/...) is rejected.
+
+# Install Kyverno ClusterPolicy: kubectl apply -f restrict-dockerhub-policy.yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-dockerhub-images
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: allow-explicit-dockerhub
+      match:
+        resources:
+          kinds:
+            - Pod
+            - Deployment
+            - StatefulSet
+            - DaemonSet
+      validate:
+        message: "Only images from Docker Hub (docker.io/*) are allowed."
+        pattern:
+          spec:
+            containers:
+              - image: "docker.io/*"
+
+    - name: allow-official-library-images
+      match:
+        resources:
+          kinds:
+            - Pod
+            - Deployment
+            - StatefulSet
+            - DaemonSet
+      validate:
+        message: "Official Docker Hub images without registry prefix are allowed (e.g., nginx:1.25.3)."
+        pattern:
+          spec:
+            containers:
+              - image: "*:*"

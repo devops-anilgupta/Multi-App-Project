@@ -1,0 +1,21 @@
+# This policy ensures that container images do not use the 'latest' tag.
+# It enforces the use of specific version tags for better security and stability.
+# Refer readme.md for more details.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: validate-image-tag
+    match:
+      resources:
+        kinds:
+        - Pod
+    validate:
+      message: "Using ':latest' tag for container images is not allowed. Please use a fixed version tag."
+      pattern:
+        spec:
+          containers:
+          - image: "!*:latest"   # NOT latest
